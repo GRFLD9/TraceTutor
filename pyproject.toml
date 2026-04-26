@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tracetutor"
+version = "0.1.0"
+description = "Interactive visualizer of Python code execution traces."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Rinat Nigmatulin" }
+]
+dependencies = [
+    "textual[syntax]>=8.2.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+tracetutor = "tracetutor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
