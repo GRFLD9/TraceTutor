@@ -2,7 +2,17 @@
 
 from __future__ import annotations
 
+from typing import Protocol
+
 from tracetutor.state import EventKind, TraceStep
+
+
+class ExplainerProtocol(Protocol):
+    """Interface for objects that can explain trace steps."""
+
+    def explain(self, step: TraceStep) -> str:
+        """Return a short explanation for the given step."""
+        ...
 
 
 class StepExplainer:

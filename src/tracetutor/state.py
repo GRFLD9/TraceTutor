@@ -41,6 +41,38 @@ class ExceptionSnapshot:
     message: str
     line_number: int | None = None
 
+    @classmethod
+    def from_empty_code(cls) -> "ExceptionSnapshot":
+        """Create a snapshot for an empty user code piece."""
+        return cls(
+            type_name="EmptyCodeError",
+            message="Code piece is empty",
+            line_number=None,
+        )
+
+    @classmethod
+    def from_syntax_error(cls, exc: SyntaxError) -> "ExceptionSnapshot":
+        """Create a snapshot from a syntax error."""
+        return cls(
+            type_name=type(exc).__name__,
+            message=exc.msg,
+            line_number=exc.lineno,
+        )
+
+    @classmethod
+    def from_exception(
+            cls,
+            exc: BaseException,
+            *,
+            line_number: int | None = None,
+    ) -> "ExceptionSnapshot":
+        """Create a snapshot from a runtime exception."""
+        return cls(
+            type_name=type(exc).__name__,
+            message=str(exc),
+            line_number=line_number,
+        )
+
 
 @dataclass(frozen=True, slots=True)
 class TraceStep:
