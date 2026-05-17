@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from types import FrameType
-from typing import Any
+from typing import Any, TypeAlias
 
 from tracetutor.exceptions import StepLimitExceeded
 from tracetutor.state import (
@@ -15,7 +15,7 @@ from tracetutor.state import (
     VariableSnapshot,
 )
 
-TraceFunction = Callable[[FrameType, str, Any], "TraceFunction | None"]
+TraceFunction: TypeAlias = Callable[[FrameType, str, Any], "TraceFunction | None"]
 
 
 class ExecutionTracer:

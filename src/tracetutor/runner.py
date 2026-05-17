@@ -11,7 +11,7 @@ from contextlib import redirect_stderr, redirect_stdout
 from types import CodeType
 from typing import Any
 
-from tracetutor.exceptions import EmptyCodeError, StepLimitExceeded, UnsafeImportError
+from tracetutor.exceptions import StepLimitExceeded, UnsafeImportError
 from tracetutor.state import EventKind, ExceptionSnapshot, TraceResult, TraceStep
 from tracetutor.tracer import ExecutionTracer
 
@@ -41,7 +41,7 @@ class CodeRunner:
         """
         source_lines = tuple(source_code.splitlines())
         if not source_code.strip():
-            exception = ExceptionSnapshot("EmptyCodeError", "Code piece is empty", None)
+            exception = ExceptionSnapshot.from_empty_code()
             return TraceResult(
                 source_lines=source_lines,
                 steps=(
@@ -58,11 +58,7 @@ class CodeRunner:
         try:
             code = self._compile(source_code)
         except SyntaxError as exc:
-            exception = ExceptionSnapshot(
-                type_name=type(exc).__name__,
-                message=exc.msg,
-                line_number=exc.lineno,
-            )
+            exception = ExceptionSnapshot.from_syntax_error(exc)
             return TraceResult(
                 source_lines=source_lines,
                 steps=(
@@ -235,8 +231,4 @@ class CodeRunner:
                 line_number = frame.lineno
         if isinstance(exc, StepLimitExceeded):
             line_number = None
-        return ExceptionSnapshot(
-            type_name=type(exc).__name__,
-            message=str(exc),
-            line_number=line_number,
-        )
+        return ExceptionSnapshot.from_exception(exc, line_number=line_number)
