@@ -1,0 +1,45 @@
+         3321672 function calls (3321663 primitive calls) in 2.108 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.034    0.034    2.723    2.723 profile_tracetutor.py:91(profile_runner)
+      303    0.009    0.000    2.720    0.009 runner.py:33(run)
+        1    0.018    0.018    2.652    2.652 profile_tracetutor.py:102(profile_timeline)
+      303    0.010    0.000    2.628    0.009 {built-in method builtins.exec}
+     1500    1.265    0.001    2.603    0.002 timeline.py:24(build)
+   658000    0.176    0.000    0.309    0.000 {built-in method builtins.next}
+  1312000    0.269    0.000    0.269    0.000 timeline.py:45(<genexpr>)
+   657666    0.125    0.000    0.125    0.000 {method 'append' of 'list' objects}
+   658000    0.088    0.000    0.088    0.000 {built-in method builtins.len}
+      303    0.000    0.000    0.046    0.000 runner.py:104(_compile)
+      303    0.045    0.000    0.045    0.000 {built-in method builtins.compile}
+      303    0.013    0.000    0.017    0.000 runner.py:108(_build_globals)
+        1    0.007    0.007    0.016    0.016 <tracetutor-user-code>:6(sum_squares)
+      606    0.011    0.000    0.011    0.000 {built-in method sys.settrace}
+      120    0.011    0.000    0.011    0.000 <tracetutor-user-code>:2(add)
+       80    0.008    0.000    0.008    0.000 <tracetutor-user-code>:2(square)
+      303    0.003    0.000    0.004    0.000 runner.py:180(_attach_final_stdout)
+    11817    0.002    0.000    0.002    0.000 {built-in method builtins.hasattr}
+        1    0.002    0.002    0.002    0.002 <tracetutor-user-code>:1(<module>)
+    12423    0.002    0.000    0.002    0.000 {built-in method builtins.getattr}
+     10/1    0.002    0.000    0.002    0.002 <tracetutor-user-code>:2(factorial)
+      606    0.001    0.000    0.002    0.000 contextlib.py:403(__exit__)
+      606    0.001    0.000    0.001    0.000 {method 'splitlines' of 'str' objects}
+      606    0.001    0.000    0.001    0.000 contextlib.py:398(__enter__)
+      303    0.000    0.000    0.001    0.000 tracer.py:29(__init__)
+      303    0.001    0.000    0.001    0.000 tracer.py:54(steps)
+      303    0.001    0.000    0.001    0.000 {built-in method builtins.print}
+     1212    0.000    0.000    0.000    0.000 {method 'getvalue' of '_io.StringIO' objects}
+      303    0.000    0.000    0.000    0.000 <string>:2(__init__)
+     1212    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
+      606    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+      303    0.000    0.000    0.000    0.000 tracer.py:59(set_stdout)
+      606    0.000    0.000    0.000    0.000 contextlib.py:393(__init__)
+      303    0.000    0.000    0.000    0.000 {method 'strip' of 'str' objects}
+      303    0.000    0.000    0.000    0.000 {built-in method sys.gettrace}
+       50    0.000    0.000    0.000    0.000 {method 'values' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        2    0.000    0.000    0.000    0.000 runner.py:24(__init__)
+
+
