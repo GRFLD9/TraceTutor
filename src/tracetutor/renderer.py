@@ -11,18 +11,12 @@ from textual.containers import Container, Horizontal, HorizontalScroll, Vertical
 from textual.widgets import Button, DataTable, Footer, Header, Label, RichLog, Static, TextArea
 
 from tracetutor.explanations import ExplainerProtocol, StepExplainer
+from tracetutor.lessons import Lesson, default_lesson, list_lessons
 from tracetutor.runner import CodeRunner
 from tracetutor.state import FrameSnapshot, TraceResult, TraceStep
 from tracetutor.timeline import VariableTimelineBuilder
 
-DEFAULT_CODE = """total = 0
-
-for number in range(1, 5):
-    total = total + number
-    print(total)
-
-result = total
-"""
+DEFAULT_CODE = default_lesson().code
 
 
 @dataclass(frozen=True, slots=True)
@@ -121,11 +115,14 @@ class TraceTutorApp(App[None]):
         ("n", "next_step", "Next"),
         ("p", "previous_step", "Prev"),
         ("q", "quit", "Quit"),
+        ("l", "next_lesson", "Lesson"),
     ]
 
     def __init__(self, initial_code: str = DEFAULT_CODE) -> None:
         """Create the UI with optional initial code."""
         super().__init__()
+        self._lessons: tuple[Lesson, ...] = list_lessons()
+        self._lesson_index = 0
         self._initial_code = initial_code
         self._runner = CodeRunner()
         self._explainer: ExplainerProtocol = StepExplainer()
@@ -149,7 +146,8 @@ class TraceTutorApp(App[None]):
                     yield Button("Run", id="run", variant="success")
                     yield Button("Prev", id="prev")
                     yield Button("Next", id="next", variant="primary")
-                yield Label("Press r=run, n=next, p=prev, q=quit", id="status")
+                    yield Button("Next lesson", id="next-lesson")
+                yield Label("Press r=run, n=next, p=prev, l=lesson, q=quit", id="status")
             with Vertical(id="right-pane"):
                 yield Label("Current source line")
                 yield RichLog(id="source-view", classes="panel", wrap=True, highlight=True)
@@ -185,6 +183,8 @@ class TraceTutorApp(App[None]):
             self.action_previous_step()
         elif event.button.id == "next":
             self.action_next_step()
+        elif event.button.id == "next-lesson":
+            self.action_next_lesson()
 
     def on_data_table_row_selected(self, event: DataTable.RowSelected) -> None:
         """Show a timeline for the selected variable row."""
@@ -227,6 +227,24 @@ class TraceTutorApp(App[None]):
             return
         self._current_step_index = max(self._current_step_index - 1, 0)
         self._render_current_step()
+
+    def action_next_lesson(self) -> None:
+        """Load the next built-in educational lesson into the editor."""
+        if not self._lessons:
+            return
+
+        self._lesson_index = (self._lesson_index + 1) % len(self._lessons)
+        lesson = self._lessons[self._lesson_index]
+
+        editor = self.query_one("#code-input", TextArea)
+        editor.text = lesson.code
+
+        self._result = None
+        self._current_step_index = 0
+        self._selected_variable = None
+
+        self._set_status(f"Loaded lesson: {lesson.title}. Press Run.")
+        self._render_timeline()
 
     def _render_current_step(self) -> None:
         """Refresh all panels for the selected step."""
